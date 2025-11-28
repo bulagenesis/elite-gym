@@ -1,0 +1,14 @@
+from pydantic import BaseModel
+
+class UserBase(BaseModel):
+    nombre: str
+    email: str
+
+class UserCreate(UserBase):
+    password: str
+
+class UserResponse(UserBase):
+    id: int
+
+    model_config = {"from_attributes": True}
+
