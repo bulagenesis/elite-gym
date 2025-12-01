@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, Date
+from sqlalchemy import Column, Integer, String, Float, Date, Text  # ← Agrega Text
 from app.database import Base
 
 class Membresia(Base):
@@ -9,6 +9,7 @@ class Membresia(Base):
     precio = Column(Float, nullable=False)
     duracion_meses = Column(Integer, nullable=False)
     fecha_inicio = Column(Date, nullable=False)
+    descripcion = Column(Text, nullable=True)  # ← NUEVA COLUMNA AGREGADA
 
     def __repr__(self):
         return f"<Membresia {self.nombre} - ${self.precio}>"

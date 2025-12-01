@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy import Column, Integer, String, Float, Text
 from app.database import Base
 
 class Producto(Base):
@@ -6,9 +6,10 @@ class Producto(Base):
     
     id = Column(Integer, primary_key=True, index=True)
     nombre = Column(String(100), nullable=False)
-    descripcion = Column(String(255), nullable=True)
     precio = Column(Float, nullable=False)
-    stock = Column(Integer, default=0, nullable=False)  # ✅ Agregado stock
+    stock = Column(Integer, nullable=False, default=0)
+    categoria = Column(String(50), nullable=False)
+    descripcion = Column(Text, nullable=True)
 
     def __repr__(self):
-        return f"<Producto {self.nombre} - ${self.precio} (Stock: {self.stock})>"
+        return f"<Producto {self.nombre} - ${self.precio}>"

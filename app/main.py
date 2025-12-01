@@ -1,10 +1,10 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware  # ← IMPORT NUEVO
-from app.routers import clientes, membresias, pagos, productos, users
+from fastapi.middleware.cors import CORSMiddleware
+from app.routers import clientes, membresias, pagos, productos, users, venta  # ← AGREGAR 'venta' AQUÍ
 
 app = FastAPI(title="Elite Gym Backend")
 
-# 🔧 CONFIGURACIÓN CORS - AGREGA ESTO
+# 🔧 CONFIGURACIÓN CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],  # URL de tu frontend React
@@ -19,11 +19,9 @@ app.include_router(membresias.router, prefix="/membresias", tags=["Membresias"])
 app.include_router(pagos.router, prefix="/pagos", tags=["Pagos"])
 app.include_router(productos.router, prefix="/productos", tags=["Productos"])
 app.include_router(users.router, prefix="/users", tags=["Usuarios"])
+app.include_router(venta.router, prefix="/ventas", tags=["Ventas"])  # ← AGREGAR ESTA LÍNEA
 
 # Endpoint raíz
 @app.get("/")
 def root():
     return {"message": "Backend Elite Gym funcionando!"}
-
-
-
