@@ -5,7 +5,24 @@ from fastapi.middleware.cors import CORSMiddleware
 # Asegúrate de que todas estas importaciones son correctas
 from app.routers import clientes, membresias, pagos, productos, users, venta
 
+# 🚨 NUEVO: Importar Base y engine para la creación de tablas (TEMPORAL)
+from app.database import Base, engine 
+
 app = FastAPI(title="Elite Gym Backend")
+
+# -----------------------------------------------------------------
+# 🚨 NUEVO: PASO 1: CREACIÓN DE TABLAS AL INICIO (TEMPORAL)
+# Esto soluciona el error "UndefinedTable" al crear las tablas en la DB de Render.
+# ¡RECUERDA ELIMINAR ESTE BLOQUE DESPUÉS DE QUE FUNCIONE!
+# -----------------------------------------------------------------
+def create_database_tables():
+    # Intenta crear todas las tablas definidas en Base.metadata
+    Base.metadata.create_all(bind=engine)
+
+create_database_tables()
+print("Base de datos inicializada (Tablas creadas/verificadas).")
+# -----------------------------------------------------------------
+
 
 # -----------------------------------------------------------------
 # 🔧 CONFIGURACIÓN CORS (Crucial para Vercel)
