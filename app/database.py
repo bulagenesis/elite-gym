@@ -1,19 +1,26 @@
-import os  # Necesario para leer variables de entorno
+# app/database.py
+import os 
 
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 # ----------------------------------------------------------------------
-# CORRECCIÓN: Lee la URL del entorno. Usa la URL local como respaldo.
+# 🚨 CORRECCIÓN CLAVE: Adaptar la URL para Render
 # ----------------------------------------------------------------------
+
+# 1. Leer la URL del entorno (Render usará esta, o usará la local si está en desarrollo).
 DATABASE_URL = os.environ.get(
     "DATABASE_URL", 
     "postgresql://postgres:313586@localhost:5432/elite_gym"
 )
-# ----------------------------------------------------------------------
 
-# El resto del código permanece igual
+# 2. Reemplazo necesario para compatibilidad con el driver de Render/SQLAlchemy
+# Render a veces proporciona la URL con 'postgres://', SQLAlchemy necesita 'postgresql://'
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1) 
+
+# ----------------------------------------------------------------------
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
